@@ -113,7 +113,11 @@ def knn_graph(x: torch.Tensor, k: int, batch: Optional[torch.Tensor] = None,
     sources = torch.arange(neighbours.shape[0], device=neighbours.device)[:, None].expand(-1, k).contiguous().view(-1)
     targets = neighbours[:,start:].contiguous().view(-1)
     
-    edge_index = torch.cat([sources[None, :], targets[None, :]], dim = 0)
+#     print(sources[None, :], type(sources[None, :]))
+#     print(targets[None, :], type(targets[None, :]))
+#     print(type([sources[None, :], targets[None, :]]))
+    edge_index = torch.cat([sources[None, :], (targets[None, :]).long()], dim = 0)
+#     print(flow, type(flow))
     
     if flow == 'source_to_target':
         row, col = edge_index[1], edge_index[0]
